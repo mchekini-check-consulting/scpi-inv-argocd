@@ -19,6 +19,8 @@ spec:
         - repoURL: "https://github.com/mchekini-check-consulting/{{ path[1] }}"
           targetRevision: main
           path: helm-chart
+          kustomize:
+            buildOptions: --enable-helm
           helm:
             releaseName: "{{ path[1] }}"
             valueFiles:

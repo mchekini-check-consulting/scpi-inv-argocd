@@ -18,6 +18,8 @@ spec:
         repoURL: "https://github.com/mchekini-check-consulting/scpi-inv-argocd"
         targetRevision: main
         path: '{{ path }}'
+        kustomize:
+          buildOptions: --enable-helm
       destination:
         name: in-cluster
         namespace: '{{ path[1] }}'

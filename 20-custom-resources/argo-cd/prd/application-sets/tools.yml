@@ -20,6 +20,8 @@ spec:
       source:
         repoURL: "https://github.com/mchekini-check-consulting/scpi-inv-argocd"
         path: '{{ path }}'
+        kustomize:
+          buildOptions: --enable-helm
         targetRevision: main
       syncPolicy:
         automated:
