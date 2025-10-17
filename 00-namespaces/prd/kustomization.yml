@@ -1,0 +1,8 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - argocd.yml
+  - cert-manager.yml
+  - external-dns.yml
+  - jenkins.yml
