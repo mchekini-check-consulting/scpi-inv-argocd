@@ -1,5 +1,11 @@
 provider: aws
 
+image:
+    registry: registry.k8s.io
+    repository: external-dns/external-dns
+    tag: v0.15.1
+    pullPolicy: IfNotPresent
+
 domainFilters:
   - check-consulting.net
 
