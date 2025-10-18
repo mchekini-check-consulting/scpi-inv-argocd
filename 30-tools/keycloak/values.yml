@@ -1,0 +1,46 @@
+postgresql:
+  enabled: true
+  auth:
+    username: bn_keycloak
+    password: keycloak_postgres
+    database: bitnami_keycloak
+
+auth:
+  adminUser: admin
+  adminPassword: admin
+
+extraEnvVars:
+  - name: KC_HOSTNAME_ADMIN
+    value: "https://keycloak.check-consulting.net"
+  - name: KC_HOSTNAME
+    value: "https://keycloak.check-consulting.net"
+  - name: KC_PROXY
+    value: edge
+  - name: WEBHOOK_HTTP_BASE_PATH
+    value: "https://qua.scpi-inv-api.check-consulting.net/api/v1/webhook/keycloak"
+  - name: WEBHOOK_HTTP_AUTH_USERNAME
+    value: "admin"
+  - name: WEBHOOK_HTTP_AUTH_PASSWORD
+    value: "admin"
+
+extraVolumes:
+  - name: providers-volume
+    emptyDir: {}
+
+extraVolumeMounts:
+  - name: providers-volume
+    mountPath: /opt/bitnami/keycloak/providers
+
+initContainers:
+  - name: download-plugins
+    image: bitnami/minideb
+    command:
+      - sh
+      - -c
+      - |
+        apt-get update && apt-get install -y curl
+        curl -fL -o /providers/keycloak-webhook-provider-core.jar https://github.com/vymalo/keycloak-webhook/releases/download/v0.8.4/keycloak-webhook-provider-core-0.8.4-all.jar
+        curl -fL -o /providers/keycloak-webhook-provider-http.jar https://github.com/vymalo/keycloak-webhook/releases/download/v0.8.4/keycloak-webhook-provider-http-0.8.4-all.jar
+    volumeMounts:
+      - name: providers-volume
+        mountPath: /providers
