@@ -5,6 +5,12 @@ postgresql:
     password: keycloak_postgres
     database: bitnami_keycloak
 
+
+image:
+  registry: docker.io
+  repository: bitnamilegacy/keycloak
+  tag: "25.0.6-debian-12-r0"
+
 auth:
   adminUser: admin
   adminPassword: admin
@@ -33,12 +39,12 @@ extraVolumeMounts:
 
 initContainers:
   - name: download-plugins
-    image: bitnami/minideb
+    image: debian:12-slim
     command:
       - sh
       - -c
       - |
-        apt-get update && apt-get install -y curl
+        apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
         curl -fL -o /providers/keycloak-webhook-provider-core.jar https://github.com/vymalo/keycloak-webhook/releases/download/v0.8.4/keycloak-webhook-provider-core-0.8.4-all.jar
         curl -fL -o /providers/keycloak-webhook-provider-http.jar https://github.com/vymalo/keycloak-webhook/releases/download/v0.8.4/keycloak-webhook-provider-http-0.8.4-all.jar
     volumeMounts:
