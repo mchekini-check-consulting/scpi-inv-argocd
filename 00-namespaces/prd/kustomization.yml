@@ -7,3 +7,4 @@ resources:
   - external-dns.yml
   - jenkins.yml
   - scpi-inv-int.yml
+  - keycloak.yml
