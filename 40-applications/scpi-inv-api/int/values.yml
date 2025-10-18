@@ -1,5 +1,5 @@
 image:
-  tag: "1.0"
+  tag: 8d66e69fe5a7279fb93d4b5e67e14b91c1f01bf7
 
 ingressPrefix: int
 
