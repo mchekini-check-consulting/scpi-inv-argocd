@@ -7,7 +7,7 @@ spec:
     group: cert-manager.io
     kind: ClusterIssuer
     name: lets-encrypt
-  secretName: sonarqube-tls
+  secretName: sonarqube.yml-tls
   dnsNames:
     - sonar.check-consulting.net
   usages:

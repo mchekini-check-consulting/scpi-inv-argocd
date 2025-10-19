@@ -16,7 +16,7 @@ spec:
         app: sonarqube
     spec:
       containers:
-        - name: sonarqube
+        - name: sonarqube.yml
           image: sonarqube:community
           imagePullPolicy: IfNotPresent
           ports:

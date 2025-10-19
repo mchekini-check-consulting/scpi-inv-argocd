@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sonarqube
-  namespace: sonarqube
+  namespace: sonarqube.yml
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
@@ -15,10 +15,10 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: sonarqube
+                name: sonarqube.yml
                 port:
                   number: 80
   tls:
     - hosts:
         - sonar.check-consulting.net
-      secretName: sonarqube-tls
+      secretName: sonarqube.yml-tls

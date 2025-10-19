@@ -9,4 +9,5 @@ resources:
   - external-dns.yml
   - jenkins.yml
   - keycloak.yml
+  - sonarqube.yml
 
