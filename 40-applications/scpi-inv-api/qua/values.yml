@@ -1,8 +1,8 @@
 image:
   tag: cd11814b3aebc3c1688619d00aea4d9393f131ab
 
-ingressPrefix: int
-ingressPgWebPrefix: int
+ingressPrefix: qua
+ingressPgWebPrefix: qua
 
 application:
-  environment: int
+  environment: qua

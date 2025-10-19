@@ -2,9 +2,11 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
+  - scpi-inv-int.yml
+  - scpi-inv-qua.yml
   - argocd.yml
   - cert-manager.yml
   - external-dns.yml
   - jenkins.yml
-  - scpi-inv-int.yml
   - keycloak.yml
+
