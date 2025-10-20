@@ -32,9 +32,9 @@ spec:
               name: api
             - containerPort: 9001
               name: console
-          volumeMounts:
-            - name: minio-storage
-              mountPath: /data
+#          volumeMounts:
+#            - name: minio-storage
+#              mountPath: /data
           livenessProbe:
             httpGet:
               path: /minio/health/live
@@ -54,7 +54,7 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "500m"
-      volumes:
-        - name: minio-storage
-          persistentVolumeClaim:
-            claimName: minio-pvc
+#      volumes:
+#        - name: minio-storage
+#          persistentVolumeClaim:
+#            claimName: minio-pvc

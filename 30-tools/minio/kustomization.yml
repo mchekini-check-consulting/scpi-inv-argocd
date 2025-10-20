@@ -5,6 +5,6 @@ namespace: minio
 resources:
   - deployment.yml
   - service.yml
-  - pvc.yml
+#  - pvc.yml
   - certificate.yml
   - ingress.yml
