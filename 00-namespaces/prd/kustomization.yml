@@ -10,4 +10,5 @@ resources:
   - jenkins.yml
   - keycloak.yml
   - sonarqube.yml
+  - minio.yml
 
