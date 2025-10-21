@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: logging
+
+resources:
+  - loki/deployment.yml
+  - loki/configmap.yml
+  - loki/service.yml
+  - promtail/daemonset.yml
+  - promtail/configmap.yml
+  - promtail/rbac.yml
+  - grafana/deployment.yml
+  - grafana/service.yml
+  - grafana/configmap.yml
+  - grafana/ingress.yml
+  - grafana/certificate.yml
