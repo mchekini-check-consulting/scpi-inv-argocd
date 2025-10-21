@@ -11,4 +11,6 @@ resources:
   - keycloak.yml
   - sonarqube.yml
   - minio.yml
+  - matomo.yml
+  - harbor.yml
 

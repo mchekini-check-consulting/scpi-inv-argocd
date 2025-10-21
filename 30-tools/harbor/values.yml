@@ -1,0 +1,6 @@
+harborAdminPassword: "admin12345"
+
+## Mot de passe PostgreSQL
+postgresql:
+  auth:
+    password: "admin12345"
