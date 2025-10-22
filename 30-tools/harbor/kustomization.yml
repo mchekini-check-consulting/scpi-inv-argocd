@@ -2,14 +2,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: harbor
 
-resources:
-  - certificate.yml
-  - ingress.yml
-
-
-helmCharts:
-  - name: harbor
-    repo: https://charts.bitnami.com/bitnami
-    releaseName: harbor
-    version: 1.18.0
-    valuesFile: values.yml
+#resources:
+#  - certificate.yml
+#  - ingress.yml
+#
+#
+#helmCharts:
+#  - name: harbor
+#    repo: https://charts.bitnami.com/bitnami
+#    releaseName: harbor
+#    version: 1.18.0
+#    valuesFile: values.yml
