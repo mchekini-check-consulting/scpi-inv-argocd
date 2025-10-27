@@ -1,5 +1,5 @@
 image:
-  tag: 8c0bb514aaecc96eebf9de162ec6bcd3cc398f03
+  tag: 4793ef3384fed77c7e7f6fbc11947af6e8a6b6ed
 
 ingressPrefix: qua
 ingressPgWebPrefix: qua
