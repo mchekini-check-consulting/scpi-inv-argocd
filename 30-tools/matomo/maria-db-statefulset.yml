@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: bitnami/mariadb:11.4.2
+          image: bitnami/mariadb:11.4
           imagePullPolicy: IfNotPresent
           env:
             - name: MARIADB_ROOT_PASSWORD
