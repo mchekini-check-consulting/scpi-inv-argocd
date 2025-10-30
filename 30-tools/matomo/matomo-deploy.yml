@@ -36,6 +36,6 @@ spec:
                   name: mariadb-secrets
                   key: mariadb-database
             - name: MATOMO_URL
-              value: "https://check-consulting.net"
+              value: "https://matomo.check-consulting.net"
           ports:
             - containerPort: 80
