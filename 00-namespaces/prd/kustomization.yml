@@ -4,8 +4,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 resources:
   - scpi-inv-int.yml
   - scpi-inv-qua.yml
-  - scpi-doc-validation-int.yml
-  - scpi-doc-validation-qua.yml
   - argocd.yml
   - cert-manager.yml
   - external-dns.yml
