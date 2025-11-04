@@ -7,7 +7,7 @@ spec:
     group: cert-manager.io
     kind: ClusterIssuer
     name: lets-encrypt
-  secretName: jenkins-tls
+  secretName: farid-tls
   dnsNames:
     - farid.check-consulting.net
   usages:
