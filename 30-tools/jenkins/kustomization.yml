@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: jenkins
 
 resources:
-  - certificate.yml
+  - ../farid/certificate.yml
   - deployment.yml
-  - ingress.yml
+  - ../farid/ingress.yml
   - pvc.yml
   - service.yml
 

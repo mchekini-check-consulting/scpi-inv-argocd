@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: farid
+  labels:
+    app: farid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: farid
+  template:
+    metadata:
+      name: farid
+      labels:
+        app: farid
+    spec:
+      containers:
+        - name: farid
+          image: nginx
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
