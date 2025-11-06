@@ -1,0 +1,8 @@
+image:
+  tag: b499abdb711a38f72ddff33ba25d19de70f41cfd
+
+ingressPrefix: qua
+ingressMongoExpressPrefix: qua
+
+application:
+  environment: qua
