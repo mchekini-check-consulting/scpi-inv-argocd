@@ -15,4 +15,5 @@ resources:
   - minio.yml
   - matomo.yml
   - harbor.yml
+  - kafka.yml
 
