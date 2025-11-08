@@ -1,5 +1,5 @@
 image:
-  tag: 64ddc9777c8f9eb73c0c3b4f01b2747d73aff00c
+  tag: 9ad6f1a29573b4bd9f93dbcd4059a423b10da433
 
 ingressPrefix: qua
 ingressMongoExpressPrefix: qua
