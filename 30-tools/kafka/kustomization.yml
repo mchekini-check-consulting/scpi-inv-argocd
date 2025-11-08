@@ -3,6 +3,9 @@ kind: Kustomization
 namespace: kafka
 
 resources:
+  - certificate.yml
+  - ingress.yml
+  - kafka-ui.yml
   - zookeeper.yml
   - kafka.yml
 

@@ -4,12 +4,6 @@ image:
 ingressPrefix: qua
 ingressPgWebPrefix: qua
 
-ingressKafkaUIPrefix: qua
-
-kafkaUI:
-  clusterName: scpi-cluster
-  bootstrapServers: kafka-svc.kafka.svc.cluster.local:9092
-  zookeeper: zookeeper.kafka.svc.cluster.local:2181
 
 application:
   environment: qua
