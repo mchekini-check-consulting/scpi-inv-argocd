@@ -24,8 +24,10 @@ spec:
               value: "2000"
             - name: ZOOKEEPER_SYNC_LIMIT
               value: "2"
+            - name: ZOOKEEPER_SERVER_ID
+              value: "1"
             - name: ZOOKEEPER_SERVERS
-              value: "zookeeper:2181"
+              value: "zookeeper:2888:3888"
           volumeMounts:
             - name: data
               mountPath: /var/lib/zookeeper/data
@@ -41,6 +43,16 @@ spec:
   selector:
     app: zookeeper
   ports:
-    - protocol: TCP
+    - name: client
+      protocol: TCP
       port: 2181
       targetPort: 2181
+    - name: follower
+      protocol: TCP
+      port: 2888
+      targetPort: 2888
+    - name: election
+      protocol: TCP
+      port: 3888
+      targetPort: 3888
+
