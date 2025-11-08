@@ -6,5 +6,10 @@ ingressPgWebPrefix: int
 
 ingressKafkaUIPrefix: int
 
+kafkaUI:
+  clusterName: scpi-cluster
+  bootstrapServers: kafka-svc.kafka.svc.cluster.local:9092
+  zookeeper: zookeeper.kafka.svc.cluster.local:2181
+
 application:
   environment: int
