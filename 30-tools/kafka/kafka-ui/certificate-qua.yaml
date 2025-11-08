@@ -1,17 +1,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: kafka-ui-tls
+  name: kafka-ui-qua-tls
 spec:
+  secretName: kafka-ui-qua-tls
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer
     name: lets-encrypt
-  secretName: kafka-ui-tls
   dnsNames:
-    - {{ if .Values.ingressPrefix }}{{ .Values.ingressPrefix }}.{{ end }}kafka-ui.check-consulting.net
+    - qua.kafka-ui.check-consulting.net
   usages:
     - digital signature
     - key encipherment
-
-

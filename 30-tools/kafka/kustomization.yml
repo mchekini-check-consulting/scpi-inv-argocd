@@ -5,6 +5,4 @@ namespace: kafka
 resources:
   - zookeeper.yml
   - kafka.yml
-  - kafka-ui.yml
-  - certificate.yml
-  - ingress.yml
+
