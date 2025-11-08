@@ -1,13 +1,10 @@
 image:
-  tag: 4cb68870d984a08ff9dafa44c9af0b7301c9cc49
+  tag: 5ebb8d9a546e92bf990fd4305efccced66a10586
 
 ingressPrefix: qua
 ingressPgWebPrefix: qua
 
-kafka:
-  clusterName: scpi-qua
-  bootstrapServers: kafka-qua-svc:9092
-  zookeeper: zookeeper-qua:2181
+ingressKafkaUIPrefix: qua
 
 application:
   environment: qua

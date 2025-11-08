@@ -1,13 +1,10 @@
 image:
-  tag: 4cb68870d984a08ff9dafa44c9af0b7301c9cc49
+  tag: 5ebb8d9a546e92bf990fd4305efccced66a10586
 
 ingressPrefix: int
 ingressPgWebPrefix: int
 
-kafka:
-  clusterName: scpi-int
-  bootstrapServers: kafka-int-svc:9092
-  zookeeper: zookeeper-int:2181
+ingressKafkaUIPrefix: int
 
 application:
   environment: int
