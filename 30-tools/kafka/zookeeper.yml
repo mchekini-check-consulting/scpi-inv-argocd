@@ -17,6 +17,21 @@ spec:
           image: confluentinc/cp-zookeeper:7.5.0
           ports:
             - containerPort: 2181
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"
+            - name: ZOOKEEPER_TICK_TIME
+              value: "2000"
+            - name: ZOOKEEPER_SYNC_LIMIT
+              value: "2"
+            - name: ZOOKEEPER_SERVERS
+              value: "zookeeper:2181"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/zookeeper/data
+      volumes:
+        - name: data
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
