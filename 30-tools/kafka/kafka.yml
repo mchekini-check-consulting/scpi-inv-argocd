@@ -22,7 +22,7 @@ spec:
             - containerPort: 9094   # OUTSIDE
           env:
             - name: KAFKA_BROKER_ID
-              value: "1001"
+              value: "1"
 
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: "zookeeper:2181"
