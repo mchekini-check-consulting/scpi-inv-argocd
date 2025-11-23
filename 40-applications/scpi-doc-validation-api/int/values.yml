@@ -1,5 +1,5 @@
 image:
-  tag: 5c8c61620ad81104f6f8bc278ebf2a12436c293b
+  tag: 71f47a22b894309205cf2bc6b5536d927357325f
 
 ingressPrefix: int
 ingressMongoExpressPrefix: int
