@@ -12,23 +12,30 @@ spec:
       labels:
         app: loki
     spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
       containers:
         - name: loki
           image: grafana/loki:2.9.0
           args:
             - -config.file=/etc/loki/local-config.yaml
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: loki-config
               mountPath: /etc/loki/local-config.yaml
               subPath: local-config.yaml
-            - name: loki-wal
-              mountPath: /wal
+            - name: data
+              mountPath: /var/loki
       volumes:
         - name: loki-config
           configMap:
             name: loki-config
-        - name: loki-wal
+        - name: data
           emptyDir: {}
+
 ---
 apiVersion: v1
 kind: ConfigMap
