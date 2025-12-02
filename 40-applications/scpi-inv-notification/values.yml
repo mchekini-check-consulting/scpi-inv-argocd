@@ -1,0 +1,5 @@
+image:
+  tag: d32c10bb0f9cace343c217130ce215b29c872c64
+
+application:
+  environment: int
