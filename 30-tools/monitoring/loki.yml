@@ -43,7 +43,7 @@ data:
 
     ingester:
       wal:
-        dir: /wal
+        enabled: false
       lifecycler:
         ring:
           replication_factor: 1
@@ -51,24 +51,21 @@ data:
     schema_config:
       configs:
         - from: "2020-10-24"
-          store: boltdb-shipper
-          object_store: local       # <-- IMPORTANT : empêche le compactor
+          store: in-memory
+          object_store: in-memory
           schema: v11
           index:
             prefix: index_
             period: 24h
 
     storage_config:
-      boltdb_shipper:
-        shared_store: filesystem
-        active_index_directory: /tmp/loki/index
-        cache_location: /tmp/loki/cache
-      filesystem:
-        directory: /tmp/loki/chunks
+      in_memory:
+        enabled: true
 
     limits_config:
       reject_old_samples: true
       reject_old_samples_max_age: 168h
+
 
 
 
