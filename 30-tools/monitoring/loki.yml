@@ -48,21 +48,24 @@ data:
     server:
       http_listen_port: 3100
 
+    memberlist:
+      join_members: []   # <-- empêche Loki d'utiliser Consul/memberlist
+
     ingester:
-      wal:
+      WAL:
         enabled: false
       lifecycler:
+        reregister_on_shutdown: false
         ring:
           replication_factor: 1
-
-    compactor:
-      working_directory: /var/loki/compactor
-      shared_store: filesystem
-      compaction_interval: 0s   # <-- désactive réellement le compactor
+          kvstore:
+            store: inmemory         # <-- fixe le ring KV pour qu'il soit interne
+      chunk_idle_period: 5m
+      chunk_retain_period: 30s
 
     schema_config:
       configs:
-        - from: "2020-10-24"
+        - from: "2020-01-01"
           store: boltdb-shipper
           object_store: filesystem
           schema: v11
@@ -72,16 +75,19 @@ data:
 
     storage_config:
       boltdb_shipper:
+        shared_store: filesystem
         active_index_directory: /var/loki/index
         cache_location: /var/loki/cache
-        shared_store: filesystem
-
       filesystem:
         directory: /var/loki/chunks
+
+    compactor:
+      compaction_interval: 0s   # <-- compactor désactivé proprement
 
     limits_config:
       reject_old_samples: true
       reject_old_samples_max_age: 168h
+
 
 
 
