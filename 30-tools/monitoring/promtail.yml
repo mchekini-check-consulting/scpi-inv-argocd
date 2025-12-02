@@ -72,7 +72,7 @@ data:
         relabel_configs:
           # (Optionnel) Ne garder que les pods scpi-inv*
           - source_labels: [__meta_kubernetes_pod_name]
-            regex: scpi-inv-api*
+            regex: scpi-inv-api-.*
             action: keep
 
           # Labels utiles
