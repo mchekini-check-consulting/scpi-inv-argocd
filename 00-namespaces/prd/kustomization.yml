@@ -16,4 +16,5 @@ resources:
   - matomo.yml
   - harbor.yml
   - kafka.yml
+  - monitoring.yml
 
