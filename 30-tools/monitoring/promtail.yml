@@ -1,7 +1,103 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: promtail
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: promtail
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "nodes", "namespaces"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: promtail
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: promtail
+subjects:
+  - kind: ServiceAccount
+    name: promtail
+    namespace: monitoring
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: promtail-config
+  namespace: monitoring
+data:
+  config.yml: |
+    server:
+      http_listen_port: 9080
+      grpc_listen_port: 0
+
+    clients:
+      - url: http://loki:3100/loki/api/v1/push   # Service Loki dans le même namespace
+
+    positions:
+      filename: /run/promtail/positions.yaml
+
+    scrape_configs:
+      - job_name: kubernetes-pods
+        pipeline_stages:
+          # 1) Les logs de /var/log/containers sont au format CRI:
+          #    <ts> <stream> <flag> <log>
+          #    Le stage "cri" extrait le champ "log"
+          - cri: {}
+
+          # 2) Ton log Spring Boot est du JSON → on parse
+          - json:
+              expressions:
+                level: level
+                message: message
+                logger: logger_name
+                env: env
+                application: application
+                thread: thread_name
+
+          # 3) On promeut quelques champs JSON en labels
+          - labels:
+              level:
+              application:
+              env:
+
+        kubernetes_sd_configs:
+          - role: pod
+
+        relabel_configs:
+          # (Optionnel) Ne garder que les pods scpi-inv*
+          - source_labels: [__meta_kubernetes_pod_name]
+            regex: scpi-inv.*
+            action: keep
+
+          # Labels utiles
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            target_label: container
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+
+          # Construire le chemin du fichier de log à partir des métadonnées :
+          # /var/log/containers/<pod>_<namespace>_<container>-*.log
+          - source_labels: [__meta_kubernetes_pod_container_name, __meta_kubernetes_pod_name, __meta_kubernetes_namespace]
+            separator: ";"
+            regex: "([^;]+);([^;]+);([^;]+)"
+            replacement: "/var/log/containers/$2_$3_$1-*.log"
+            target_label: __path__
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: promtail
+  namespace: monitoring
 spec:
   selector:
     matchLabels:
@@ -23,64 +119,14 @@ spec:
               subPath: config.yml
             - name: varlog
               mountPath: /var/log
-            - name: containers
-              mountPath: /var/log/containers
-            - name: pods
-              mountPath: /var/log/pods
+            - name: run-promtail
+              mountPath: /run/promtail
       volumes:
         - name: promtail-config
           configMap:
             name: promtail-config
         - name: varlog
           hostPath:
-            path: /var/log
-        - name: containers
-          hostPath:
-            path: /var/log/containers
-        - name: pods
-          hostPath:
-            path: /var/log/pods
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: promtail
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: promtail-config
-  namespace: monitoring
-data:
-  config.yml: |
-    server:
-      http_listen_port: 3101
-      grpc_listen_port: 0
-
-    clients:
-      - url: http://loki:3100/loki/api/v1/push
-
-    positions:
-      filename: /tmp/positions.yaml
-
-    scrape_configs:
-      - job_name: kubernetes-pods
-        pipeline_stages:
-          - match:
-              selector: '{pod=~"scpi-inv.*"}'
-              action: keep
-
-        kubernetes_sd_configs:
-          - role: pod
-
-        relabel_configs:
-          - source_labels: ['__meta_kubernetes_pod_node_name']
-            target_label: 'hostname'
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
-          - source_labels: ['__meta_kubernetes_namespace']
-            target_label: 'namespace'
-          - source_labels: ['__meta_kubernetes_pod_name']
-            target_label: 'pod'
-          - source_labels: ['__meta_kubernetes_pod_container_name']
-            target_label: 'container'
+            path: /var/log            # là où Kube écrit les logs containers sur le nœud
+        - name: run-promtail
+          emptyDir: {}
