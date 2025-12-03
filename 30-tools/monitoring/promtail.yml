@@ -43,55 +43,34 @@ data:
       filename: /run/promtail/positions.yaml
 
     scrape_configs:
-      - job_name: kubernetes-pods
-        pipeline_stages:
-          # 1) Les logs de /var/log/containers sont au format CRI:
-          #    <ts> <stream> <flag> <log>
-          #    Le stage "cri" extrait le champ "log"
-          - cri: {}
-
-          # 2) Ton log Spring Boot est du JSON → on parse
-          - json:
-              expressions:
-                level: level
-                message: message
-                logger: logger_name
-                env: env
-                application: application
-                thread: thread_name
-
-          # 3) On promeut quelques champs JSON en labels
-          - labels:
-              level:
-              application:
-              env:
-
-        kubernetes_sd_configs:
-          - role: pod
-
-        relabel_configs:
-          # (Optionnel) Ne garder que les pods scpi-inv*
-          - source_labels: [__meta_kubernetes_pod_name]
-            regex: scpi-inv-api-.*
-            action: keep
-
-          # Labels utiles
-          - source_labels: [__meta_kubernetes_namespace]
-            target_label: namespace
-          - source_labels: [__meta_kubernetes_pod_name]
-            target_label: pod
-          - source_labels: [__meta_kubernetes_pod_container_name]
-            target_label: container
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
-
-          # Construire le chemin du fichier de log à partir des métadonnées :
-          # /var/log/containers/<pod>_<namespace>_<container>-*.log
-          - source_labels: [__meta_kubernetes_pod_container_name, __meta_kubernetes_pod_name, __meta_kubernetes_namespace]
-            separator: ";"
-            regex: "([^;]+);([^;]+);([^;]+)"
-            replacement: "/var/log/containers/$2_$3_$1-*.log"
-            target_label: __path__
+    - job_name: scpi-inv-api-logs
+      static_configs:
+        - targets:
+            - localhost
+          labels:
+            job: scpi-inv-api
+            __path__: /var/log/containers/scpi-inv-api*.log
+      
+      pipeline_stages:
+        # 1) Les fichiers de /var/log/containers sont au format CRI :
+        #    <ts> <stream> <flag> <log>
+        - cri: {}
+        
+        # 2) Le "log" est ton JSON Spring Boot → on parse
+        - json:
+            expressions:
+              level: level
+              message: message
+              logger: logger_name
+              env: env
+              application: application
+              thread: thread_name
+        
+        # 3) On promeut quelques champs JSON en labels Loki
+        - labels:
+            level:
+            application:
+            env:
 ---
 apiVersion: apps/v1
 kind: DaemonSet
