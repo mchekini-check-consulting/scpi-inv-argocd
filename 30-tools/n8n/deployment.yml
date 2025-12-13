@@ -113,6 +113,24 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: "OnRootMismatch"
+      initContainers:
+        - name: fix-n8n-perms
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /home/node/.n8n
+              chown -R 1000:1000 /home/node/.n8n
+              chmod 700 /home/node/.n8n
+              if [ -f /home/node/.n8n/config ]; then
+                chmod 600 /home/node/.n8n/config
+              fi
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: n8n-data
+              mountPath: /home/node/.n8n
       containers:
         - name: n8n
           image: n8nio/n8n:latest
@@ -120,6 +138,8 @@ spec:
             - containerPort: 5678
               name: http
           env:
+            - name: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
+              value: "true"
             - name: TZ
               valueFrom:
                 configMapKeyRef:
