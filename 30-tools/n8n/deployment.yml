@@ -19,7 +19,19 @@ data:
   N8N_PORT: "5678"
   N8N_PROTOCOL: "http"
   N8N_HOST: "localhost"
-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
 ---
 apiVersion: apps/v1
 kind: StatefulSet
