@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: n8n-tls
+spec:
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: lets-encrypt
+  secretName: n8n-tls
+  dnsNames:
+    - n8n.check-consulting.net
+  usages:
+    - digital signature
+    - key encipherment

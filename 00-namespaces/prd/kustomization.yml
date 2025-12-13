@@ -17,4 +17,5 @@ resources:
   - harbor.yml
   - kafka.yml
   - monitoring.yml
+  - n8n.yml
 
