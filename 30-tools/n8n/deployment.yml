@@ -150,6 +150,10 @@ spec:
             - containerPort: 5678
               name: http
           env:
+            - name: WEBHOOK_URL
+              value: https://n8n.check-consulting.net/
+            - name: N8N_PROXY_HOPS
+              value: "1"
             - name: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
               value: "true"
             - name: TZ
